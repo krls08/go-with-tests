@@ -54,3 +54,14 @@ func assertNoError(t testing.TB, got error) {
 		t.Fatal("got an error but didn't want one")
 	}
 }
+
+func TestBitcoinString(t *testing.T) {
+	t.Run("bitcoin to string", func(t *testing.T) {
+		b := Bitcoin(10)
+		got := b.String()
+		want := "10 BTC"
+		if got != want {
+			t.Errorf("got %s want %s", got, want)
+		}
+	})
+}
