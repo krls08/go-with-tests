@@ -1,0 +1,7 @@
+mode: set
+github.com/krls08/go-with-tests/05_Pointers_and_errors/wallet.go:13.34,15.2 1 0
+github.com/krls08/go-with-tests/05_Pointers_and_errors/wallet.go:21.42,23.2 1 1
+github.com/krls08/go-with-tests/05_Pointers_and_errors/wallet.go:25.36,27.2 1 1
+github.com/krls08/go-with-tests/05_Pointers_and_errors/wallet.go:29.49,30.26 1 1
+github.com/krls08/go-with-tests/05_Pointers_and_errors/wallet.go:33.2,34.12 2 1
+github.com/krls08/go-with-tests/05_Pointers_and_errors/wallet.go:30.26,32.3 1 1
