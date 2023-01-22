@@ -2,6 +2,7 @@
 // using the method append vs assign directly to the position
 // to laungh the benchmarks run from this directory:
 // go test -bench . --benchmem
+// go test -bench=. --benchmem
 package benchmark
 
 import "testing"
@@ -28,19 +29,6 @@ func doAppend() {
 	result = data
 }
 
-func arrAssign() {
-	data := [iterations]int{}
-	for i := 0; i < size; i++ {
-		data[i] = i
-	}
-}
-
-func BenchmarkArrAssign(b *testing.B) {
-	b.N = iterations
-	for i := 0; i < b.N; i++ {
-		doAppend()
-	}
-}
 func BenchmarkAssign(b *testing.B) {
 	b.N = iterations
 	for i := 0; i < b.N; i++ {
