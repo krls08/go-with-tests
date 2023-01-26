@@ -27,6 +27,10 @@ func main() {
 	fmt.Println("flight avModel", aFlight.xAvModel)
 	fmt.Println("flight name", aFlight.xName)
 
+	fmt.Printf("\n----------- Lists -----------\n\n")
+	l := []string{"UNKNOWN", "COMMAND_0"}
+	listLen(l)
+	listLen(nil)
 }
 
 func exPtr(name *string) {
@@ -35,4 +39,8 @@ func exPtr(name *string) {
 	} else {
 		fmt.Println("name is nil!. Default name is pepito")
 	}
+}
+func listLen(list []string) {
+	fmt.Println("list ->", list)
+	fmt.Println("length:", len(list))
 }
