@@ -24,12 +24,21 @@ func main() {
 
 func omg(objs Objs) {
 	for _, obj := range objs {
+		//intObj0 := obj.(*IntObj)
+		//fmt.Println("intObj0", intObj0)
 		if intObj, ok := obj.(IntObj); ok {
 			fmt.Printf("IntObj: %s, %d\n", intObj.GetType(), intObj.Int)
 		} else if strObj, ok := obj.(StrObj); ok {
 			fmt.Printf("StrObj: %s, %s\n", strObj.GetType(), strObj.Str)
+		} else if intObjPnt, ok := obj.(*IntObj); ok {
+			fmt.Printf("IntObjPnt: %s, %d\n", intObjPnt.GetType(), intObjPnt.Int)
 		} else {
 			fmt.Printf("Unknown: %s\n", obj.GetType())
+			//i := (*IntObj)(obj)
+			//if i := obj.(IntObj); ok {
+			//	fmt.Println("---> ok, i", ok, i)
+			//	fmt.Printf("type of: %T", i)
+			//}
 		}
 	}
 }
