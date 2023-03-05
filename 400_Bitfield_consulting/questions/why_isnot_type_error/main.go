@@ -2,6 +2,14 @@
 // why isn't this a type error? :)
 // https://twitter.com/josh_cheek/status/1629040134988390403
 
+// Answer
+// The spec says (in the Expressions / Calls) section:
+// A method call x.m() is valid if the method set of (the type of) x contains m and the argument list can
+// be assigned to the parameter list of m. If x is addressable and &x's method set contains m, x.m() is shorthand for (&x).m().
+// In less grandiloquent words, if Foo has a method Bar, then *Foo has that method.
+//
+
+
 package main
 
 import (
