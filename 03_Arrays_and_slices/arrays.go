@@ -31,3 +31,18 @@ func SumAllTails(numbersToSum ...[]int) []int {
 	}
 	return sums
 }
+
+func SliceRemoveIndex(aSlice []string, index int) []string {
+	aSlice[index] = aSlice[len(aSlice)-1]
+	return aSlice[:len(aSlice)-1]
+}
+
+func GenSliceRemoveIndex[K interface{}](s []K, i int) []K {
+	s[i] = s[len(s)-1]
+	return s[:len(s)-1]
+}
+
+//func remove(s []int, i int) []int {
+//    s[i] = s[len(s)-1]
+//    return s[:len(s)-1]
+//}

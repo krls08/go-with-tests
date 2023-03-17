@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"reflect"
 	"testing"
 )
@@ -53,4 +54,77 @@ func TestSumAllTails(t *testing.T) {
 		checkSums(t, got, want)
 	})
 
+}
+
+func TestRemoveIndex(t *testing.T) {
+
+	t.Run("delete first element", func(t *testing.T) {
+		slice0 := []string{"a", "b", "c"}
+		fmt.Println("--------- slice0", slice0)
+		got := SliceRemoveIndex(slice0, 0)
+		want := []string{"c", "b"}
+		assertSlicesStr(t, got, want)
+	})
+
+	t.Run("delete last element", func(t *testing.T) {
+		slice0 := []string{"a", "b", "c"}
+		fmt.Println("--------- slice0", slice0)
+		got := SliceRemoveIndex(slice0, 2)
+		want := []string{"a", "b"}
+		assertSlicesStr(t, got, want)
+	})
+
+	t.Run("delete on one size length", func(t *testing.T) {
+		slice0 := []string{"a"}
+		fmt.Println("--------- slice0", slice0)
+		got := SliceRemoveIndex(slice0, 0)
+		fmt.Println("--------- got", got)
+		want := []string{}
+		assertSlicesStr(t, got, want)
+	})
+
+	t.Run("panic -> slice of length 0", func(t *testing.T) {
+		slice0 := []string{}
+		fmt.Println("--------- slice0", slice0)
+		wrapperPanic := func() { SliceRemoveIndex(slice0, 0) }
+		shouldPanic(t, wrapperPanic)
+		//wrapperPanic()
+	})
+}
+
+func TestGenSliceRemoveIndex(t *testing.T) {
+
+	t.Run("Ok string slice", func(t *testing.T) {
+		slice0 := []string{"a", "b"}
+		got := GenSliceRemoveIndex(slice0, 1)
+		want := []string{"a"}
+		assertSlicesStr(t, got, want)
+	})
+	t.Run("Ok int slice", func(t *testing.T) {
+		slice0 := []int{10, 20}
+		got := GenSliceRemoveIndex(slice0, 1)
+		want := []int{10}
+		assertSlicesGen(t, got, want)
+	})
+}
+
+func shouldPanic(t *testing.T, callback func()) {
+	t.Helper()
+	defer func() { _ = recover() }()
+	callback()
+	t.Errorf("should have panicked")
+}
+
+func assertSlicesGen[K any](t testing.TB, got, want []K) {
+	t.Helper()
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %v, want %v", got, want)
+	}
+}
+
+func assertSlicesStr(t testing.TB, got, want []string) {
+	t.Helper()
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %q, want %q", got, want)
+	}
 }
