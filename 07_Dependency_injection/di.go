@@ -19,8 +19,10 @@ func MyGreeterHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	Greet(os.Stdout, "Krls")
+	Greet(os.Stdout, "Krls\n")
 
+	log.Printf("starting server in port %s...\n", "5001")
 	log.Fatal(http.ListenAndServe(":5001", http.HandlerFunc(MyGreeterHandler)))
+	log.Println("exit main")
 
 }
