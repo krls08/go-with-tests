@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 func Sum(numbers []int) int {
 	sum := 0
 	for _, number := range numbers {
@@ -46,3 +48,9 @@ func GenSliceRemoveIndex[K interface{}](s []K, i int) []K {
 //    s[i] = s[len(s)-1]
 //    return s[:len(s)-1]
 //}
+
+func CreateStringSlice() []string {
+	s := make([]string, 0, 10)
+	fmt.Println("s", s)
+	return s
+}

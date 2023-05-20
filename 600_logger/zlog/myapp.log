@@ -1,0 +1,8 @@
+{"level":"info","time":"2023-03-22T02:01:24+01:00","message":"Info message"}
+{"level":"debug","time":"2023-03-22T02:01:24+01:00","message":"hello"}
+{"level":"info","time":"2023-03-22T02:03:26+01:00","message":"Info message"}
+{"level":"debug","time":"2023-03-22T02:03:26+01:00","message":"hello"}
+{"level":"info","time":"2023-03-22T02:04:58+01:00","message":"Info message"}
+{"level":"debug","time":"2023-03-22T02:04:58+01:00","message":"hello"}
+{"level":"info","time":"2023-03-22T02:10:26+01:00","message":"Info message"}
+{"level":"debug","time":"2023-03-22T02:10:26+01:00","message":"hello"}

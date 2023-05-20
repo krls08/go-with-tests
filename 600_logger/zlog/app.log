@@ -1,0 +1,2 @@
+{"level":"info","time":"2023-03-22T02:10:26+01:00","caller":"/home/krls/Documents/Developments/go-with-tests/600_logger/zlog/pkgfoo/pkgfoo.go:19","message":"hello"}
+{"level":"info","time":"2023-03-22T02:10:26+01:00","caller":"/home/krls/Documents/Developments/go-with-tests/600_logger/zlog/pkgfoo/pkgfoo.go:27","message":"test from zero log"}

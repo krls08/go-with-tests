@@ -128,3 +128,10 @@ func assertSlicesStr(t testing.TB, got, want []string) {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
+
+func TestCreateStringSlice(t *testing.T) {
+	t.Run("ok", func(t *testing.T) {
+		slice0 := CreateStringSlice()
+		fmt.Print("new slice", slice0)
+	})
+}
