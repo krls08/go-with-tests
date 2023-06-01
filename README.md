@@ -11,3 +11,8 @@ go test -coverprofile ./wallet
 // Visualize the cover profile on browser
 go tool cover -html ./wallet
 ```
+
+## Go benchmarking
+```
+go test -bench=. --benchmem
+```
