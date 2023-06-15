@@ -2,11 +2,13 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"testing"
+	"testing/quick"
 )
 
 var cases = []struct {
-	Arabic int
+	Arabic uint16
 	Roman  string
 }{
 	{Arabic: 1, Roman: "I"},
@@ -77,7 +79,7 @@ func TestRomanNumerals(t *testing.T) {
 }
 
 func TestConvertingToArabic(t *testing.T) {
-	for _, test := range cases[:1] {
+	for _, test := range cases {
 		t.Run(fmt.Sprintf("%q gets converted to %d", test.Roman, test.Arabic), func(t *testing.T) {
 			got := ConvertToArabic(test.Roman)
 			if got != test.Arabic {
@@ -94,4 +96,23 @@ func assertEqualsString(t testing.TB, got, want string) {
 		t.Errorf("got %q, want %q", got, want)
 	}
 
+}
+
+func TestPropertiesOfConversion(t *testing.T) {
+	assertion := func(arabic uint16) bool {
+		if arabic > 3999 {
+			log.Println(arabic)
+			return true
+		}
+		t.Log("testing", arabic)
+		roman := ConvertToRoman(arabic)
+		fromRoman := ConvertToArabic(roman)
+		return fromRoman == arabic
+	}
+
+	if err := quick.Check(assertion, &quick.Config{
+		MaxCount: 1000,
+	}); err != nil {
+		t.Error("failed checks", err)
+	}
 }
