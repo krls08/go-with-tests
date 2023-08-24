@@ -16,7 +16,7 @@ func NewInMemoryPlayerStore() *InMemoryPlayerStore {
 
 func (i *InMemoryPlayerStore) GetPlayerScore(name string) int {
 	i.lock.RLock()
-	defer i.lock.Unlock()
+	defer i.lock.RUnlock()
 	return i.scores[name]
 }
 
