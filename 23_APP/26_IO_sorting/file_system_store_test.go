@@ -1,7 +1,6 @@
 package main
 
 import (
-	"io"
 	"os"
 	"testing"
 )
@@ -13,7 +12,8 @@ func TestFileSystemStore(t *testing.T) {
 		{"Name": "Chris", "Wins":33}]`)
 		defer cleanDatabase()
 
-		store := NewFileSystemPlayerStore(database)
+		store, err := NewFileSystemPlayerStore(database)
+		assertNoError(t, err)
 
 		got := store.GetLeague()
 
@@ -36,7 +36,8 @@ func TestFileSystemStore(t *testing.T) {
 		{"Name": "Chris", "Wins":33}]`)
 		defer cleanDatabase()
 
-		store := NewFileSystemPlayerStore(database)
+		store, err := NewFileSystemPlayerStore(database)
+		assertNoError(t, err)
 
 		got := store.GetPlayerScore("Chris")
 
@@ -53,7 +54,8 @@ func TestFileSystemStore(t *testing.T) {
 		{"Name": "Chris", "Wins":33}]`)
 		defer cleanDatabase()
 
-		store := NewFileSystemPlayerStore(database)
+		store, err := NewFileSystemPlayerStore(database)
+		assertNoError(t, err)
 
 		store.RecordWin("Chris")
 
@@ -70,7 +72,8 @@ func TestFileSystemStore(t *testing.T) {
 		{"Name": "Chris", "Wins":33}]`)
 		defer cleanDatabase()
 
-		store := NewFileSystemPlayerStore(database)
+		store, err := NewFileSystemPlayerStore(database)
+		assertNoError(t, err)
 
 		store.RecordWin("Pepper")
 
@@ -81,9 +84,19 @@ func TestFileSystemStore(t *testing.T) {
 
 	})
 
+	t.Run("wordks with and empty file", func(t *testing.T) {
+		database, cleanDatabase := createTempFile(t, "")
+		defer cleanDatabase()
+
+		_, err := NewFileSystemPlayerStore(database)
+		assertNoError(t, err)
+
+	})
+
 }
 
-func createTempFile(t testing.TB, initalData string) (io.ReadWriteSeeker, func()) {
+// func createTempFile(t testing.TB, initalData string) (io.ReadWriteSeeker, func()) {
+func createTempFile(t testing.TB, initalData string) (*os.File, func()) {
 	t.Helper()
 	tmpfile, err := os.CreateTemp("", "db")
 	if err != nil {
@@ -106,5 +119,12 @@ func assertScoreEquals(t testing.TB, got, want int) {
 
 	if got != want {
 		t.Errorf("got %d want %d", got, want)
+	}
+}
+
+func assertNoError(t testing.TB, err error) {
+	t.Helper()
+	if err != nil {
+		t.Fatalf("didn't expect error but got one, %v", err)
 	}
 }

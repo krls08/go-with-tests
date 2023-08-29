@@ -2,31 +2,38 @@ package main
 
 import (
 	"encoding/json"
-	"io"
+	"fmt"
+	"os"
 )
 
 type FileSystemPlayerStore struct {
-	database io.ReadWriteSeeker
+	database *json.Encoder
 	league   League
 }
 
-func NewFileSystemPlayerStore(aDatabase io.ReadWriteSeeker) *FileSystemPlayerStore {
-	aDatabase.Seek(0, 0)
-	aLeague, _ := NewLeague(aDatabase)
-	return &FileSystemPlayerStore{
-		database: aDatabase,
-		league:   aLeague,
+// func NewFileSystemPlayerStore(aDatabase io.ReadWriteSeeker) *FileSystemPlayerStore {
+func NewFileSystemPlayerStore(aFile *os.File) (*FileSystemPlayerStore, error) {
+	err := initializePlayerDBFile(aFile)
+	if err != nil {
+		return nil, fmt.Errorf("problem initialising player db file, %v", err)
 	}
+
+	aLeague, err := NewLeague(aFile)
+	if err != nil {
+		return nil, fmt.Errorf("problem loading player store from file %s, %v", aFile.Name(), err)
+	}
+	return &FileSystemPlayerStore{
+		database: json.NewEncoder(&tape{aFile}),
+		league:   aLeague,
+	}, nil
 }
 
 func (f *FileSystemPlayerStore) GetLeague() League {
-	f.database.Seek(0, 0)
-	league, _ := NewLeague(f.database)
-	return league
+	return f.league
 }
 
 func (f *FileSystemPlayerStore) GetPlayerScore(name string) int {
-	player := f.GetLeague().Find(name)
+	player := f.league.Find(name)
 	if player != nil {
 		return player.Wins
 	}
@@ -34,15 +41,31 @@ func (f *FileSystemPlayerStore) GetPlayerScore(name string) int {
 }
 
 func (f *FileSystemPlayerStore) RecordWin(name string) {
-	league := f.GetLeague()
-	player := league.Find(name)
+	player := f.league.Find(name)
 	if player != nil {
 		player.Wins++
 	} else {
-		league = append(league, Player{name, 1})
+		f.league = append(f.league, Player{name, 1})
 	}
 
-	f.database.Seek(0, 0)
-	json.NewEncoder(f.database).Encode(league)
+	f.database.Encode(f.league)
+
+}
+
+func initializePlayerDBFile(file *os.File) error {
+	file.Seek(0, 0)
+
+	info, err := file.Stat()
+
+	if err != nil {
+		return fmt.Errorf("problem getting file info form file %s", file.Name())
+	}
+
+	if info.Size() == 0 {
+		file.Write([]byte("[]"))
+		file.Seek(0, 0)
+	}
+
+	return nil
 
 }
