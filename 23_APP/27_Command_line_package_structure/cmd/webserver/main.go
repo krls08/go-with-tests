@@ -3,7 +3,6 @@ package main
 import (
 	"log"
 	"net/http"
-	"os"
 
 	poker "github.com/krls08/go-with-tests/23_APP/27_Command_line_package_structure"
 )
@@ -14,14 +13,12 @@ func main() {
 	//server := &PlayerServer{store: NewInMemoryPlayerStore()}
 	//server := NewPlayerServer(NewInMemoryPlayerStore())
 
-	db, err := os.OpenFile(dbFileName, os.O_RDWR|os.O_CREATE, 0666)
+	anStore, closeDB, err := poker.FileSystemPlayerStoreFromFile(dbFileName)
 	if err != nil {
-		log.Fatalf("problem opening %s %v", dbFileName, err)
+		log.Fatal(err)
 	}
-	anStore, err := poker.NewFileSystemPlayerStore(db)
-	if err != nil {
-		log.Fatalf("problem creating file system player store, %v", err)
-	}
+	closeDB()
+
 	server := poker.NewPlayerServer(anStore)
 
 	if err := http.ListenAndServe(":5000", server); err != nil {
