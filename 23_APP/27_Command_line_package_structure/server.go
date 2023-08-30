@@ -1,4 +1,4 @@
-package main
+package poker
 
 import (
 	"encoding/json"
@@ -18,6 +18,7 @@ type PlayerStore interface {
 	GetPlayerScore(name string) int
 	RecordWin(name string)
 	GetLeague() League
+	GetSortedLeague() League
 }
 
 type PlayerServer struct {
