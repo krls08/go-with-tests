@@ -4,6 +4,8 @@ import (
 	"log"
 	"net/http"
 	"os"
+
+	poker "github.com/krls08/go-with-tests/23_APP/27_Command_line_package_structure"
 )
 
 const dbFileName = "game.db.json"
@@ -16,11 +18,11 @@ func main() {
 	if err != nil {
 		log.Fatalf("problem opening %s %v", dbFileName, err)
 	}
-	anStore, err := NewFileSystemPlayerStore(db)
+	anStore, err := poker.NewFileSystemPlayerStore(db)
 	if err != nil {
 		log.Fatalf("problem creating file system player store, %v", err)
 	}
-	server := NewPlayerServer(anStore)
+	server := poker.NewPlayerServer(anStore)
 
 	if err := http.ListenAndServe(":5000", server); err != nil {
 		log.Fatalf("could not listen on port 5000 %v", err)
