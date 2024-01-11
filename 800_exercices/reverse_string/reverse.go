@@ -20,7 +20,6 @@ func ReverseString_1(s string) string {
 	}
 
 	return string(r)
-
 }
 
 func main() {
